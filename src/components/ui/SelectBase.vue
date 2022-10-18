@@ -1,11 +1,11 @@
 <template>
-  <select v-if="isUsersEmpty">
-    <option value="" disabled selected>{{ defaultValue }}</option>
-    <option v-for="user in users" :key="user.name">{{ user.name }}</option>
+  <select>
+    <option disabled selected>{{ defaultValue }}</option>
+    <option v-for="user in users" :key="user.id">{{ user.name }}</option>
   </select>
 </template>
 
-<script>
+<script lang="js">
 export default {
   name: 'SelectBase',
   props: {
@@ -16,11 +16,6 @@ export default {
     defaultValue: {
       required: false,
       type: String
-    }
-  },
-  computed: {
-    isUsersEmpty () {
-      return this.users.length > 0
     }
   }
 }

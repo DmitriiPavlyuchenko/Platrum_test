@@ -8,7 +8,7 @@
   </div>
 </template>
 
-<script>
+<script lang="js">
 import TableApp from '../components/Table/TableApp'
 import AddingUserModal from '../components/modals/AddingUserModal'
 import {getItem, setItem} from '../helpers/local-storage'

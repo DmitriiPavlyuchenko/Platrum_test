@@ -1,25 +1,25 @@
 <template>
   <table :class="$style.table">
-    <tr :class="$style['table__title']">
-      <td :class="[$style['table__column'], $style['table__column-first']]">
+    <tr :class="$style['title']">
+      <td :class="[$style['column'], $style['column-first']]">
         Имя
       </td>
-      <td :class="[$style['table__column'], $style['table__column-second']]">
+      <td :class="[$style['column'], $style['column-second']]">
         Телефон
       </td>
     </tr>
-    <tr :class="$style['table__body']" v-for="user in users" :key="user.id">
-      <td :class="[$style['table__column'], $style['table__column-first']]">
+    <tr :class="$style['body']" v-for="user in users" :key="user.id">
+      <td :class="[$style['column'], $style['column-first']]">
         {{ user.name }}
       </td>
-      <td :class="[$style['table__column'], $style['table__column-second']]">
+      <td :class="[$style['column'], $style['column-second']]">
         {{ user.phone }}
       </td>
     </tr>
   </table>
 </template>
 
-<script>
+<script lang="js">
 export default {
   name: 'TableApp',
   props: {
@@ -43,30 +43,30 @@ tr:not(:first-child) {
   border-top: 0.05rem solid var(--grey);
 }
 
-.table__title {
+.title {
   display: flex;
   gap: 3rem;
   width: 100%;
   font-size: 1.3rem;
 }
 
-.table__body {
+.body {
   display: flex;
   gap: 3rem;
   width: 100%;
   font-size: 1rem;
 }
 
-.table__column {
+.column {
   padding: 0.5rem;
   align-items: center;
 }
 
-.table__column-first {
+.column-first {
   width: 35%;
 }
 
-.table__column-second {
+.column-second {
   width: 65%;
   border-left: 0.05rem solid var(--grey);
 }

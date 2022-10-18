@@ -7,14 +7,16 @@
       <div :class="$style.form">
         <label for="name" :class="$style.label">
           Имя
-          <input-base v-model="user.name" type="text" id="name"
-                      :class="$style.input"/>
+          <input-base ref="focus" v-model="user.name" type="text" id="name"
+                      :class="[[$style.input], {[$style.valid]: failedValidation.name}]"/>
         </label>
         <label for="phone" :class="$style.label">
           Телефон
-          <input-base v-model="user.phone" type="phone" id="phone" :class="$style.input"/>
+          <input-base
+            v-model="user.phone" @input="onlyNumbers" type="text" id="phone" maxlength=12 minlength=12 pattern="[0-9]+"
+            :class="[[$style.input], {[$style.valid]: failedValidation.phone}]"/>
         </label>
-        <label :class="$style.label" for="chief">
+        <label :class="$style.label" for="chief" v-if="usersStorage.length > 0">
           Начальник
           <select-base :default-value="'Выберите начальника'" :class="$style.select"
                        id="chief" :users="usersStorage"/>
@@ -23,13 +25,13 @@
     </template>
     <template #footer>
       <div :class="$style.buttons">
-        <button :class="$style.button" @click="addUser" type="button">Сохранить</button>
+        <button :disabled="isFormValidate" :class="$style.button" @click="addUser" type="button">Сохранить</button>
       </div>
     </template>
   </modal-base>
 </template>
 
-<script>
+<script lang="js">
 import ModalBase from '../ui/ModalBase'
 import InputBase from '../ui/InputBase'
 import ButtonBase from '../ui/ButtonBase'
@@ -40,6 +42,10 @@ export default {
 
   data () {
     return {
+      failedValidation: {
+        phone: false,
+        name: false
+      },
       user: {
         name: '',
         phone: ''
@@ -67,20 +73,60 @@ export default {
 
   emits: ['closeModal', 'users'],
 
+  computed: {
+    isFormValidate () {
+      return !this.failedValidation.name || !this.failedValidation.phone
+    }
+  },
+
+  watch: {
+    'user.name': function () {
+      let userName = this.user.name
+      const isUserNameNotEmpty = userName.length > 0
+      if (isUserNameNotEmpty) {
+        this.failedValidation.name = true
+      } else {
+        this.failedValidation.name = false
+      }
+
+      this.user.name = userName.slice(0, 1).toUpperCase() + userName.slice(1)
+    }
+  },
+
   methods: {
     close () {
       this.$emit('closeModal')
     },
 
     addUser () {
-      const id = Math.random().toString(36).substring(2)
-      this.user.id = id
+      const generatedId = Math.random().toString(36).substring(2)
+      this.user.id = generatedId
+
+      const phone = this.user.phone
+      const modifiedPhone = [
+        phone.slice(0, 2), ' ',
+        phone.slice(2, 5), ' ',
+        phone.slice(5, 8), ' ',
+        phone.slice(8, 10), ' ',
+        phone.slice(10, 12)].join('')
+      this.user.phone = modifiedPhone
+
       this.$emit('users', this.user)
+
       this.user = {
         name: '',
         phone: ''
       }
+      this.failedValidation = {
+        name: false,
+        phone: false
+      }
       this.close()
+    },
+
+    onlyNumbers () {
+      const correctPhone = /^((\+7)+([0-9]){10})$/
+      this.failedValidation.phone = correctPhone.test(this.user.phone)
     }
   }
 }
@@ -114,5 +160,11 @@ export default {
 label > input,
 label > select {
   width: 60%;
+  height: 1.5rem;
+  padding: 0.8rem;
+}
+
+.valid {
+  border-color: green;
 }
 </style>

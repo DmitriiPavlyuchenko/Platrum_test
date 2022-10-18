@@ -1,18 +1,18 @@
 <template>
   <zoom-transition>
-    <div v-if="isModalOpen" :class="$style['modal-mask']" @click="close">
-      <div :class="$style['modal-wrapper']">
-        <div :class="$style['modal-container']" role="dialog" @click.stop>
-          <div :class="$style['modal-header']">
+    <div v-if="isModalOpen" :class="$style['mask']" @click="close">
+      <div :class="$style['wrapper']">
+        <div :class="$style['container']" role="dialog" @click.stop>
+          <div :class="$style['header']">
             <slot name="header"></slot>
           </div>
-          <div :class="$style['modal-body']">
+          <div :class="$style['body']">
             <slot name="body"></slot>
           </div>
-          <div :class="$style['modal-footer']">
+          <div :class="$style['footer']">
             <slot name="footer"></slot>
           </div>
-          <button-base type="button" :class="$style['modal-close']" @click="close"
+          <button-base type="button" :class="$style['close']" @click="close"
           >x
           </button-base>
         </div>
@@ -21,11 +21,10 @@
   </zoom-transition>
 </template>
 
-<script>
-import {defineComponent} from 'vue'
+<script lang="js">
 import ZoomTransition from '../transitions/ZoomTransition.vue'
 
-export default defineComponent({
+export default {
   name: 'ModalBase',
 
   components: {ZoomTransition},
@@ -58,11 +57,11 @@ export default defineComponent({
       this.$emit('closeModal')
     }
   }
-})
+}
 </script>
 
 <style lang="css" module>
-.modal-mask {
+.mask {
   position: fixed;
   z-index: 9998;
   top: 0;
@@ -78,11 +77,11 @@ export default defineComponent({
   transition: opacity 0.5s ease;
 }
 
-.modal-wrapper {
+.wrapper {
   width: 100%;
 }
 
-.modal-container {
+.container {
   position: relative;
   max-width: 22.5rem;
   width: 100%;
@@ -98,7 +97,7 @@ export default defineComponent({
   transition: all 0.7s ease;
 }
 
-.modal-header {
+.header {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -107,24 +106,24 @@ export default defineComponent({
   color: var(--black);
 }
 
-.modal-footer {
+.footer {
   display: flex;
   text-align: center;
   justify-content: center;
 }
 
-.modal-body {
+.body {
   display: flex;
   gap: 1rem;
   flex-direction: column;
 }
 
-.modal-button {
+.button {
   color: var(--black);
   display: inline-block;
 }
 
-.modal-close {
+.close {
   position: absolute;
   color: var(--black);
   font-size: 1.5rem;
@@ -133,7 +132,7 @@ export default defineComponent({
   right: 0.5rem;
 }
 
-.modal-close:hover {
+.close:hover {
   color: var(--grey);
 }
 </style>

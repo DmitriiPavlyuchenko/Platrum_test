@@ -5,12 +5,12 @@
   />
 </template>
 
-<script>
+<script lang="js">
 export default {
   name: 'InputBase',
   props: {
     value: {
-      type: String,
+      type: [String, Number],
       required: true
     }
   },
@@ -21,6 +21,11 @@ export default {
 <style lang="css" module>
 input {
   color: var(--black);
+  border-color: inherit;
+}
+
+input:focus {
+  outline: none;
 }
 
 input::placeholder {
