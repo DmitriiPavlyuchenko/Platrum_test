@@ -4,13 +4,14 @@
       <button-base type="button" @click="openModal" :class="$style.button">Добавить</button-base>
     </div>
     <table-app :users="users"/>
-    <adding-user-modal @users="addUser" @closeModal="close" :isModalOpen="toggleModal"/>
+    <adding-user-modal :users-storage="users" @users="addUser" @closeModal="close" :isModalOpen="toggleModal"/>
   </div>
 </template>
 
 <script>
 import TableApp from '../components/Table/TableApp'
 import AddingUserModal from '../components/modals/AddingUserModal'
+import {getItem, setItem} from '../helpers/local-storage'
 
 export default {
   name: 'HomeView',
@@ -24,6 +25,10 @@ export default {
     }
   },
 
+  created () {
+    this.getUsers()
+  },
+
   methods: {
     openModal () {
       this.toggleModal = true
@@ -34,7 +39,15 @@ export default {
     },
 
     addUser (value) {
-      this.users = value
+      this.users.push(value)
+      setItem('users', this.users)
+    },
+
+    getUsers () {
+      const users = getItem('users')
+      if (users) {
+        this.users = users
+      }
     }
   }
 }

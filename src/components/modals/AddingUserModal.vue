@@ -16,7 +16,8 @@
         </label>
         <label :class="$style.label" for="chief">
           Начальник
-          <select-base :default-value="'Выберите начальника'" :class="$style.select" id="chief" :users="test"/>
+          <select-base :default-value="'Выберите начальника'" :class="$style.select"
+                       id="chief" :users="usersStorage"/>
         </label>
       </div>
     </template>
@@ -39,14 +40,10 @@ export default {
 
   data () {
     return {
-      test: [
-        {name: 'chief'}
-      ],
       user: {
         name: '',
         phone: ''
-      },
-      users: []
+      }
     }
   },
 
@@ -61,10 +58,14 @@ export default {
     isModalOpen: {
       type: Boolean,
       required: true
+    },
+    usersStorage: {
+      required: false,
+      type: Array
     }
   },
 
-  emits: ['closeModal', 'userData'],
+  emits: ['closeModal', 'users'],
 
   methods: {
     close () {
@@ -74,8 +75,7 @@ export default {
     addUser () {
       const id = Math.random().toString(36).substring(2)
       this.user.id = id
-      this.users.push(this.user)
-      this.$emit('users', this.users)
+      this.$emit('users', this.user)
       this.user = {
         name: '',
         phone: ''
