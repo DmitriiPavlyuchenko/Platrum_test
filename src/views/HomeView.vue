@@ -1,19 +1,42 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.buttons">
-      <ButtonBase :class="$style.button">Добавить</ButtonBase>
+      <button-base type="button" @click="openModal" :class="$style.button">Добавить</button-base>
     </div>
-    <TableApp/>
+    <table-app :users="users"/>
+    <adding-user-modal @users="addUser" @closeModal="close" :isModalOpen="toggleModal"/>
   </div>
 </template>
 
 <script>
 import TableApp from '../components/Table/TableApp'
-import ButtonBase from '../components/ui/ButtonBase'
+import AddingUserModal from '../components/modals/AddingUserModal'
 
 export default {
   name: 'HomeView',
-  components: {TableApp, ButtonBase}
+
+  components: {TableApp, AddingUserModal},
+
+  data () {
+    return {
+      toggleModal: false,
+      users: null
+    }
+  },
+
+  methods: {
+    openModal () {
+      this.toggleModal = true
+    },
+
+    close () {
+      this.toggleModal = false
+    },
+
+    addUser (value) {
+      this.users = value
+    }
+  }
 }
 </script>
 

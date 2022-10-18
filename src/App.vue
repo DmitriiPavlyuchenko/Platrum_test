@@ -1,5 +1,5 @@
 <template>
-  <HomeView/>
+  <home-view/>
 </template>
 
 <script lang="js">

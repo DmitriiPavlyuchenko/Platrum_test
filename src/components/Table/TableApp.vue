@@ -8,12 +8,12 @@
         Телефон
       </td>
     </tr>
-    <tr :class="$style['table__body']">
+    <tr :class="$style['table__body']" v-for="user in users" :key="user.id">
       <td :class="[$style['table__column'], $style['table__column-first']]">
-        Имя
+        {{ user.name }}
       </td>
       <td :class="[$style['table__column'], $style['table__column-second']]">
-        Телефон
+        {{ user.phone }}
       </td>
     </tr>
   </table>
@@ -21,7 +21,13 @@
 
 <script>
 export default {
-  name: 'TableApp'
+  name: 'TableApp',
+  props: {
+    users: {
+      required: false,
+      type: Array
+    }
+  }
 }
 </script>
 
