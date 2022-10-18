@@ -1,0 +1,9 @@
+:root {
+  --white: #ffffff;
+  --lightgrey: #D3D3D3FF;
+  --black: #000000;
+  --grey: #808080FF;
+
+  --main-font-size: 20px;
+  --main-font-weight: 400;
+}

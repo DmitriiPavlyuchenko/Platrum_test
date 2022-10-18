@@ -30,11 +30,11 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  border: 0.05rem solid grey;
+  border: 0.05rem solid var(--grey);
 }
 
 tr:not(:first-child) {
-  border-top: 0.05rem solid grey;
+  border-top: 0.05rem solid var(--grey);
 }
 
 .table__title {
@@ -62,6 +62,6 @@ tr:not(:first-child) {
 
 .table__column-second {
   width: 65%;
-  border-left: 0.05rem solid grey;
+  border-left: 0.05rem solid var(--grey);
 }
 </style>

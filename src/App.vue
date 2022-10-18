@@ -1,5 +1,5 @@
 <template>
-  <HomeView />
+  <HomeView/>
 </template>
 
 <script lang="js">
@@ -11,5 +11,4 @@ export default {
 </script>
 
 <style lang="css" module>
-@import 'assets/styles/style.css';
 </style>
