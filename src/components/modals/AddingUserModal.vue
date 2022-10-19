@@ -172,6 +172,10 @@ select {
   font-size: 0.75rem;
 }
 
+.select {
+  padding: 0.4rem 0 0.8rem;
+}
+
 .select-wrapper {
   display: flex;
   justify-content: space-between;
