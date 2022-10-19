@@ -21,7 +21,6 @@ export default {
 <style lang="css" module>
 input {
   color: var(--black);
-  border-color: inherit;
 }
 
 input:focus {
