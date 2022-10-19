@@ -16,11 +16,13 @@
             v-model="user.phone" @input="onlyNumbers" type="text" id="phone" maxlength=12 minlength=12 pattern="[0-9]+"
             :class="[[$style.input], {[$style.valid]: failedValidation.phone}]"/>
         </label>
-        <label :class="$style.label" for="chief" v-if="usersStorage.length > 0">
-          Начальник
-          <select-base :default-value="'Выберите начальника'" :class="$style.select"
-                       id="chief" :users="usersStorage"/>
-        </label>
+        <div :class="$style['select-wrapper']">
+          <span>
+            Начальник
+          </span>
+          <select-base v-model="selectedOption" :default-value="'Выберите начальника'" :class="$style.select"
+                       id="chief" :options="usersStorage"/>
+        </div>
       </div>
     </template>
     <template #footer>
@@ -49,7 +51,8 @@ export default {
       user: {
         name: '',
         phone: ''
-      }
+      },
+      selectedOption: ''
     }
   },
 
@@ -143,13 +146,13 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  font-size: 0.85rem;
 }
 
 .label {
   display: flex;
   gap: 2rem;
   align-items: center;
-  font-size: 0.85rem;
   justify-content: space-between;
 }
 
@@ -157,11 +160,24 @@ export default {
   display: flex;
 }
 
-label > input,
-label > select {
+input,
+select {
   width: 60%;
-  height: 1.5rem;
   padding: 0.8rem;
+  max-height: 2.5rem;
+  border: 0.1rem solid var(--grey);
+}
+
+.select {
+  background-color: white;
+  color: black;
+  font-size: 0.75rem;
+}
+
+.select-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .valid {
