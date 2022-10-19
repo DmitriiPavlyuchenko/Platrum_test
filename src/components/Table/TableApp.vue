@@ -45,14 +45,14 @@ tr:not(:first-child) {
 
 .title {
   display: flex;
-  gap: 3rem;
+  gap: 1.5rem;
   width: 100%;
   font-size: 1.3rem;
 }
 
 .body {
   display: flex;
-  gap: 3rem;
+  gap: 1.5rem;
   width: 100%;
   font-size: 1rem;
 }
@@ -64,6 +64,7 @@ tr:not(:first-child) {
 
 .column-first {
   width: 35%;
+  word-break: break-all;
 }
 
 .column-second {

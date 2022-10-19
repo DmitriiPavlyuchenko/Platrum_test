@@ -58,7 +58,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
-  width: 30%;
+  width: 45%;
   height: 100vh;
   margin: 0 auto;
   justify-content: center;
@@ -67,5 +67,11 @@ export default {
 
 .buttons {
   align-self: flex-end;
+}
+
+@media (max-width: 800px) {
+  .container {
+    width: 90%;
+  }
 }
 </style>
