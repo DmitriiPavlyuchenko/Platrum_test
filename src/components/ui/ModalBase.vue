@@ -108,8 +108,6 @@ export default {
 
 .footer {
   display: flex;
-  text-align: center;
-  justify-content: center;
 }
 
 .body {

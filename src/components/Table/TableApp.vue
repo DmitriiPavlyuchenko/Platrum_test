@@ -1,7 +1,7 @@
 <template>
   <table :class="$style.table">
     <tr :class="$style['title']">
-      <td :class="[$style['column'], $style['column-first']]">
+      <td :class="[$style['column'], $style['column-first']]" @click="sortList">
         Имя
       </td>
       <td :class="[$style['column'], $style['column-second']]">
@@ -22,10 +22,19 @@
 <script lang="js">
 export default {
   name: 'TableApp',
+
   props: {
     users: {
       required: false,
       type: Array
+    }
+  },
+
+  emits: ['sortList'],
+
+  methods: {
+    sortList () {
+      this.$emit('sortList')
     }
   }
 }

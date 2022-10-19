@@ -8,15 +8,15 @@
         <label for="name" :class="$style.label">
           Имя
           <input-base autofocus v-model="user.name" type="text" id="name"
-                      :class="[[$style.input], {[$style.valid]: failedValidation.name}]"/>
+                      :class="[[$style.input], {[$style.valid]: isFormValid.name}]"/>
         </label>
         <label for="phone" :class="$style.label">
           Телефон
           <input-base
-            v-model="user.phone" @input="onlyNumbers" type="text" id="phone" maxlength=12 minlength=12 pattern="[0-9]+"
-            :class="[[$style.input], {[$style.valid]: failedValidation.phone}]"/>
+            v-model="user.phone" @input="isPhoneValid" type="text" id="phone" maxlength=12 minlength=12 pattern="[0-9]+"
+            :class="[[$style.input], {[$style.valid]: isFormValid.phone}]"/>
         </label>
-        <div :class="$style['select-wrapper']">
+        <div :class="$style['select-wrapper']" v-if="isUsersStorageEmpty">
           <span>
             Начальник
           </span>
@@ -38,14 +38,14 @@ import ModalBase from '../ui/ModalBase'
 import InputBase from '../ui/InputBase'
 import ButtonBase from '../ui/ButtonBase'
 import SelectBase from '../ui/SelectBase'
-import {generateRandomId} from '../../helpers/generate-random'
+import {generateRandomId} from '../../helpers/generateRandom'
 
 export default {
-  name: 'AddingUserModal',
+  name: 'AddUserModal',
 
   data () {
     return {
-      failedValidation: {
+      isFormValid: {
         phone: false,
         name: false
       },
@@ -79,7 +79,11 @@ export default {
 
   computed: {
     isFormValidate () {
-      return !this.failedValidation.name || !this.failedValidation.phone
+      return !this.isFormValid.name || !this.isFormValid.phone
+    },
+
+    isUsersStorageEmpty () {
+      return this.usersStorage.length > 0
     }
   },
 
@@ -87,9 +91,10 @@ export default {
     'user.name': function () {
       let userName = this.user.name
       const isUserNameNotEmpty = userName.length > 0
-      this.failedValidation.name = isUserNameNotEmpty
+      this.isFormValid.name = isUserNameNotEmpty
 
-      this.user.name = userName.slice(0, 1).toUpperCase() + userName.slice(1)
+      const firstLetterToUppercase = userName.slice(0, 1).toUpperCase() + userName.slice(1)
+      this.user.name = firstLetterToUppercase
     }
   },
 
@@ -100,15 +105,15 @@ export default {
 
     addUser () {
       this.user.id = generateRandomId()
-      this.user.phone = this.modifiedPhone(this.user.phone)
+      this.user.phone = this.splitPhone(this.user.phone)
 
-      this.$emit('users', this.user)
+      this.$emit('users', {user: this.user, selectedOption: this.selectedOption})
 
-      this.clearingForm()
+      this.clearForm()
       this.close()
     },
 
-    modifiedPhone (phone) {
+    splitPhone (phone) {
       return [
         phone.slice(0, 2), ' ',
         phone.slice(2, 5), ' ',
@@ -117,20 +122,21 @@ export default {
         phone.slice(10, 12)].join('')
     },
 
-    clearingForm () {
+    clearForm () {
       this.user = {
         name: '',
         phone: ''
       }
-      this.failedValidation = {
+      this.isFormValid = {
         name: false,
         phone: false
       }
+      this.selectedOption = null
     },
 
-    onlyNumbers () {
+    isPhoneValid () {
       const correctPhone = /^((\+7)+([0-9]){10})$/
-      this.failedValidation.phone = correctPhone.test(this.user.phone)
+      this.isFormValid.phone = correctPhone.test(this.user.phone)
     }
   }
 }
