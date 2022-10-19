@@ -7,7 +7,7 @@
       <div :class="$style.form">
         <label for="name" :class="$style.label">
           Имя
-          <input-base ref="focus" v-model="user.name" type="text" id="name"
+          <input-base autofocus v-model="user.name" type="text" id="name"
                       :class="[[$style.input], {[$style.valid]: failedValidation.name}]"/>
         </label>
         <label for="phone" :class="$style.label">
@@ -38,6 +38,7 @@ import ModalBase from '../ui/ModalBase'
 import InputBase from '../ui/InputBase'
 import ButtonBase from '../ui/ButtonBase'
 import SelectBase from '../ui/SelectBase'
+import {generateRandomId} from '../../helpers/generate-random'
 
 export default {
   name: 'AddingUserModal',
@@ -86,11 +87,7 @@ export default {
     'user.name': function () {
       let userName = this.user.name
       const isUserNameNotEmpty = userName.length > 0
-      if (isUserNameNotEmpty) {
-        this.failedValidation.name = true
-      } else {
-        this.failedValidation.name = false
-      }
+      this.failedValidation.name = isUserNameNotEmpty
 
       this.user.name = userName.slice(0, 1).toUpperCase() + userName.slice(1)
     }
@@ -102,20 +99,25 @@ export default {
     },
 
     addUser () {
-      const generatedId = Math.random().toString(36).substring(2)
-      this.user.id = generatedId
+      this.user.id = generateRandomId()
+      this.user.phone = this.modifiedPhone(this.user.phone)
 
-      const phone = this.user.phone
-      const modifiedPhone = [
+      this.$emit('users', this.user)
+
+      this.clearingForm()
+      this.close()
+    },
+
+    modifiedPhone (phone) {
+      return [
         phone.slice(0, 2), ' ',
         phone.slice(2, 5), ' ',
         phone.slice(5, 8), ' ',
         phone.slice(8, 10), ' ',
         phone.slice(10, 12)].join('')
-      this.user.phone = modifiedPhone
+    },
 
-      this.$emit('users', this.user)
-
+    clearingForm () {
       this.user = {
         name: '',
         phone: ''
@@ -124,7 +126,6 @@ export default {
         name: false,
         phone: false
       }
-      this.close()
     },
 
     onlyNumbers () {
@@ -164,11 +165,8 @@ input,
 select {
   width: 60%;
   padding: 0.8rem;
-  max-height: 2.5rem;
+  max-height: 2rem;
   border: 0.1rem solid var(--grey);
-}
-
-.select {
   background-color: white;
   color: black;
   font-size: 0.75rem;
