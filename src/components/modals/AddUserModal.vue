@@ -7,27 +7,51 @@
       <div :class="$style.form">
         <label for="name" :class="$style.label">
           Имя
-          <input-base autofocus v-model="user.name" type="text" id="name"
-                      :class="[[$style.input], {[$style.valid]: isFormValid.name}]"/>
+          <input-base
+            autofocus
+            v-model="user.name"
+            type="text"
+            id="name"
+            :class="[[$style.input], { [$style.valid]: isFormValid.name }]"
+          />
         </label>
         <label for="phone" :class="$style.label">
           Телефон
           <input-base
-            v-model="user.phone" @input="isPhoneValid" type="text" id="phone" maxlength=12 minlength=12 pattern="[0-9]+"
-            :class="[[$style.input], {[$style.valid]: isFormValid.phone}]"/>
+            v-model="user.phone"
+            @input="isPhoneValid"
+            type="text"
+            id="phone"
+            maxlength="12"
+            minlength="12"
+            pattern="[0-9]+"
+            :class="[[$style.input], { [$style.valid]: isFormValid.phone }]"
+          />
         </label>
         <div :class="$style['select-wrapper']" v-if="isUsersStorageEmpty">
           <span>
             Начальник
           </span>
-          <select-base v-model="selectedOption" :default-value="'Выберите начальника'" :class="$style.select"
-                       id="chief" :options="usersStorage"/>
+          <select-base
+            v-model="selectedOption"
+            :default-value="'Выберите начальника'"
+            :class="$style.select"
+            id="chief"
+            :options="users"
+          />
         </div>
       </div>
     </template>
     <template #footer>
       <div :class="$style.buttons">
-        <button :disabled="isFormValidate" :class="$style.button" @click="addUser" type="button">Сохранить</button>
+        <button
+          :disabled="isFormValidate"
+          :class="$style.button"
+          @click="addUser"
+          type="button"
+        >
+          Сохранить
+        </button>
       </div>
     </template>
   </modal-base>
@@ -53,7 +77,8 @@ export default {
         name: '',
         phone: ''
       },
-      selectedOption: ''
+      selectedOption: '',
+      users: []
     }
   },
 
@@ -95,6 +120,13 @@ export default {
 
       const firstLetterToUppercase = userName.slice(0, 1).toUpperCase() + userName.slice(1)
       this.user.name = firstLetterToUppercase
+    },
+
+    usersStorage () {
+      const users = JSON.parse(JSON.stringify(this.usersStorage))
+      let tmpUsers = []
+      this.openUsers(users, tmpUsers)
+      this.users = tmpUsers
     }
   },
 
@@ -102,6 +134,25 @@ export default {
     close () {
       this.$emit('closeModal')
     },
+
+    openUsers (users, tmpUsers) {
+      // const sortUsers = users.reduce(this.expand, null)
+      // console.log(sortUsers)
+      users.forEach((user) => {
+        if (user.hasOwnProperty('usersList')) {
+          this.openUsers(user['usersList'], tmpUsers)
+          tmpUsers.push(user)
+        } else {
+          tmpUsers.push(user)
+        }
+      })
+    },
+
+    // expand (acc, el) {
+    //   if (!Array.isArray(el)) return el
+    //   if (el['usersList']) return el['usersList'].reduce(this.findById, acc)
+    //   return acc
+    // },
 
     addUser () {
       this.user.id = generateRandomId()

@@ -21,8 +21,9 @@ export default {
   data () {
     return {
       isModalOpen: false,
-      toggleSort: true,
-      users: []
+      toggleSort: false,
+      users: [],
+      selectedOption: ''
     }
   },
 
@@ -54,12 +55,14 @@ export default {
     },
 
     addUser (value) {
+      this.selectedOption = value.selectedOption
+
       const isUserChief = this.addSubordinate(value)
 
       if (isUserChief) {
         this.users = this.users.map(user => {
-          if (user.id === isUserChief[0].id) {
-            return isUserChief[0]
+          if (user.id === isUserChief.id) {
+            return isUserChief
           }
           return user
         })
@@ -71,17 +74,23 @@ export default {
     addSubordinate (value) {
       const hasSelectedOption = value.selectedOption.length !== 0
       if (hasSelectedOption) {
-        const chief = this.users.filter(user => user.id === value.selectedOption)
+        const chief = this.users.reduce(this.findById, null)
 
-        if (!chief[0]['usersList']) {
-          this.$set(chief[0], 'usersList', [])
+        if (!chief['usersList']) {
+          this.$set(chief, 'usersList', [])
         }
 
-        chief[0]['usersList'].push(value.user)
+        chief['usersList'].push(value.user)
         return chief
       } else {
         return undefined
       }
+    },
+
+    findById (acc, el) {
+      if (el.id === this.selectedOption) return el
+      if (el['usersList']) return el['usersList'].reduce(this.findById, acc)
+      return acc
     },
 
     getUsers () {
@@ -94,16 +103,16 @@ export default {
     },
 
     sortByAsc (arr) {
-      arr.sort(this.byField('name'))
-      this.childrenSort(arr, 'asc')
+      arr.sort(this.compareName('name'))
+      this.sortSubordinates(arr, 'asc')
     },
 
     sortByDesc (arr) {
-      arr.sort(this.byField('name')).reverse()
-      this.childrenSort(arr, 'desc')
+      arr.sort(this.compareName('name')).reverse()
+      this.sortSubordinates(arr, 'desc')
     },
 
-    childrenSort (arr, sort) {
+    sortSubordinates (arr, sort) {
       arr.forEach((user) => {
         if (user.hasOwnProperty('usersList')) {
           const {usersList} = user
@@ -112,7 +121,7 @@ export default {
       })
     },
 
-    byField (field) {
+    compareName (field) {
       return (a, b) => a[field] > b[field] ? 1 : -1
     }
   }

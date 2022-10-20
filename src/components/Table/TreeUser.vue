@@ -1,15 +1,19 @@
 <template>
-  <tr :class="$style['body']" :style="userMargin">
-    <td :class="[$style['column'], $style['column-first']]">
+  <tr :class="$style['body']" :style="userPadding">
+    <b-alert show :class="$style.alert" class="d-flex justify-content-between mb-1">
+      <span v-if="hasChildren">+</span>
+      <span v-else-if="child">+</span>
       {{ user.name }}
-    </td>
-    <td :class="[$style['column'], $style['column-second']]">
       {{ user.phone }}
-    </td>
+    </b-alert>
+    <!--    <td :class="[$style['column'], $style['column-first']]" :style="borderBottom">-->
+    <!--    </td>-->
+    <!--    <td :class="[$style['column'], $style['column-second']]" :style="[userMargin, borderBottom]">-->
+    <!--    </td>-->
     <div v-if="hasChildren" :class="$style['user-children']">
       <list-transition>
         <tree-user v-for="user in user.usersList" :key="user.id" :user="user"
-                   :spacing="spacing + 10"/>
+                   :spacing="spacing + 5" :child="true" :margin="margin + 5" :border-top="borderBottom"/>
       </list-transition>
     </div>
   </tr>
@@ -31,13 +35,34 @@ export default {
     spacing: {
       type: Number,
       default: 0
+    },
+
+    margin: {
+      type: Number,
+      default: 0
+    },
+
+    child: {
+      type: Boolean
     }
   },
 
   computed: {
-    userMargin () {
+    userPadding () {
       return {
         'padding-left': `${this.spacing}px`
+      }
+    },
+
+    borderBottom () {
+      return {
+        'border-bottom': '0.05rem solid var(--grey)'
+      }
+    },
+
+    userMargin () {
+      return {
+        'padding-right': `${this.margin}px`
       }
     },
 
@@ -51,10 +76,15 @@ export default {
 
 <style module lang="css">
 .body {
-  display: block;
-  gap: 1.5rem;
+  display: grid;
+  grid-template-columns: 40% 60%;
   width: 100%;
   font-size: 1rem;
+}
+
+.user-children > span > .body {
+  display: flex;
+  justify-content: space-between;
 }
 
 .column-first {
@@ -64,16 +94,21 @@ export default {
 
 .column-second {
   width: 65%;
-//border-left: 0.05rem solid var(--grey);
-}
-
-.user-children {
   display: flex;
-  flex-direction: column;
+  flex: 0 0 100%;
 }
 
-tr {
-  border-top: 0.05rem solid var(--grey);
-  width: 100%;
+span > tr > td {
+  border-left: 0.05rem solid var(--grey);
+}
+
+td {
+  min-width: 100%;
+  padding: 0.3rem;
+}
+
+.alert {
+  display: flex;
+  justify-content: space-between;
 }
 </style>
