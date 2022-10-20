@@ -1,27 +1,26 @@
 <template>
   <table :class="$style.table">
     <tr :class="$style['title']">
-      <td :class="[$style['column'], $style['column-first']]" @click="sortList">
+      <td :class="[$style['column'], $style['column-first']]" :style="{cursor: 'pointer'}" @click="sortList">
         Имя
       </td>
       <td :class="[$style['column'], $style['column-second']]">
         Телефон
       </td>
     </tr>
-    <tr :class="$style['body']" v-for="user in users" :key="user.id">
-      <td :class="[$style['column'], $style['column-first']]">
-        {{ user.name }}
-      </td>
-      <td :class="[$style['column'], $style['column-second']]">
-        {{ user.phone }}
-      </td>
-    </tr>
+    <list-transition>
+      <tree-user v-for="user in users" :key="user.id" :user="user"/>
+    </list-transition>
   </table>
 </template>
 
 <script lang="js">
+import ListTransition from '../transitions/ListTransition'
+import TreeUser from './TreeUser'
+
 export default {
   name: 'UserList',
+  components: {ListTransition, TreeUser},
 
   props: {
     users: {
@@ -30,11 +29,11 @@ export default {
     }
   },
 
-  emits: ['sortList'],
+  emits: ['sort'],
 
   methods: {
     sortList () {
-      this.$emit('sortList')
+      this.$emit('sort')
     }
   }
 }
@@ -45,11 +44,13 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
-  border: 0.05rem solid var(--grey);
+  border-left: 0.05rem solid var(--grey);
+  border-right: 0.05rem solid var(--grey);
+  border-bottom: 0.05rem solid var(--grey);
 }
 
 tr:not(:first-child) {
-  border-top: 0.05rem solid var(--grey);
+//border-top: 0.05rem solid var(--grey);
 }
 
 .title {
@@ -57,13 +58,6 @@ tr:not(:first-child) {
   gap: 1.5rem;
   width: 100%;
   font-size: 1.3rem;
-}
-
-.body {
-  display: flex;
-  gap: 1.5rem;
-  width: 100%;
-  font-size: 1rem;
 }
 
 .column {
@@ -78,6 +72,6 @@ tr:not(:first-child) {
 
 .column-second {
   width: 65%;
-  border-left: 0.05rem solid var(--grey);
+//border-left: 0.05rem solid var(--grey);
 }
 </style>
