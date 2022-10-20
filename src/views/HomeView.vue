@@ -1,12 +1,13 @@
 <template>
-  <users-list/>
+  <table-app></table-app>
 </template>
 
 <script lang="js">
-import UsersList from '../components/UsersList'
+import UsersList from '../components/Table/TableApp.vue'
+import TableApp from '../components/Table/TableApp'
 
 export default {
   name: 'HomeView',
-  components: {UsersList}
+  components: {TableApp, UsersList}
 }
 </script>
