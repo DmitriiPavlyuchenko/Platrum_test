@@ -131,7 +131,7 @@ export default {
         name: false,
         phone: false
       }
-      this.selectedOption = null
+      this.selectedOption = ''
     },
 
     isPhoneValid () {

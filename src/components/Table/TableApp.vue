@@ -12,6 +12,7 @@
 import AddUserModal from '../modals/AddUserModal'
 import {LOCALSTORAGE} from '../../helpers/localStorage'
 import UserList from './UserList'
+import Vue from 'vue'
 
 export default {
   name: 'TableApp',
@@ -22,28 +23,7 @@ export default {
     return {
       isModalOpen: false,
       toggleSort: true,
-      users: [
-        {id: 1, name: 'ke', phone: '+791'},
-        {
-          id: 2,
-          name: 'be',
-          phone: '+791',
-          usersList: [
-            {
-              id: 4, name: 'ze', phone: '+791'
-            },
-            {
-              id: 5,
-              name: 'de',
-              phone: '+791',
-              usersList: [
-                {id: 6, name: 'ze', phone: '+791'},
-                {id: 7, name: 'me', phone: '+791'}]
-            }
-          ]
-        },
-        {id: 3, name: 're', phone: '+791'}
-      ]
+      users: []
     }
   },
 
@@ -55,9 +35,13 @@ export default {
     toggleSort () {
       if (this.toggleSort) {
         this.sortByAsc(this.users)
-      } else if (!this.toggleSort) {
+      } else {
         this.sortByDesc(this.users)
       }
+    },
+
+    users () {
+      LOCALSTORAGE.setItem('users', this.users)
     }
   },
 
@@ -71,20 +55,39 @@ export default {
     },
 
     addUser (value) {
-      // if (value.selectedOption.length !== 0) {
-      //   const chief = this.users.filter(user => user.id === value.selectedOption)
-      //   const subordinateName = value.user.name
-      //   chief[0][subordinateName] = value.user
-      //   this.users.push(chief)
-      // } else {
-      // }
-      this.users.push(value.user)
-      LOCALSTORAGE.setItem('users', this.users)
+      const isUserChief = this.addSubordinate(value)
+
+      if (isUserChief) {
+        this.users = this.users.map(user => {
+          if (user.id === isUserChief[0].id) {
+            return isUserChief[0]
+          }
+          return user
+        })
+      } else {
+        this.users.push(value.user)
+      }
+    },
+
+    addSubordinate (value) {
+      const hasSelectedOption = value.selectedOption.length !== 0
+      if (hasSelectedOption) {
+        const chief = this.users.filter(user => user.id === value.selectedOption)
+
+        if (!chief[0]['usersList']) {
+          this.$set(chief[0], 'usersList', [])
+        }
+
+        chief[0]['usersList'].push(value.user)
+        return chief
+      } else {
+        return undefined
+      }
     },
 
     getUsers () {
-      // const users = LOCALSTORAGE.getItem('users')
-      // this.users = users
+      const users = LOCALSTORAGE.getItem('users')
+      this.users = users
     },
 
     changeSort () {
