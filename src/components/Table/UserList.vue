@@ -9,18 +9,18 @@
       </td>
     </tr>
     <list-transition>
-      <tree-user v-for="user in users" :key="user.id" :user="user"/>
+      <user-tree v-for="user in users" :key="user.id" :user="user"/>
     </list-transition>
   </table>
 </template>
 
 <script lang="js">
 import ListTransition from '../transitions/ListTransition'
-import TreeUser from './TreeUser'
+import UserTree from './UserTree'
 
 export default {
   name: 'UserList',
-  components: {ListTransition, TreeUser},
+  components: {ListTransition, UserTree},
 
   props: {
     users: {

@@ -12,7 +12,7 @@
     <!--    </td>-->
     <div v-if="hasChildren" :class="$style['user-children']">
       <list-transition>
-        <tree-user v-for="user in user.usersList" :key="user.id" :user="user"
+        <user-tree v-for="user in user.usersList" :key="user.id" :user="user"
                    :spacing="spacing + 5" :child="true" :margin="margin + 5" :border-top="borderBottom"/>
       </list-transition>
     </div>
@@ -23,7 +23,7 @@
 import ListTransition from '../transitions/ListTransition'
 
 export default {
-  name: 'TreeUser',
+  name: 'UserTree',
   components: {ListTransition},
 
   props: {
@@ -57,12 +57,6 @@ export default {
     borderBottom () {
       return {
         'border-bottom': '0.05rem solid var(--grey)'
-      }
-    },
-
-    userMargin () {
-      return {
-        'padding-right': `${this.margin}px`
       }
     },
 

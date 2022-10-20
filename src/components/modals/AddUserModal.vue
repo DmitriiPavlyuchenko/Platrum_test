@@ -125,7 +125,7 @@ export default {
     usersStorage () {
       const users = JSON.parse(JSON.stringify(this.usersStorage))
       let tmpUsers = []
-      this.openUsers(users, tmpUsers)
+      this.flatUsers(users, tmpUsers)
       this.users = tmpUsers
     }
   },
@@ -135,24 +135,16 @@ export default {
       this.$emit('closeModal')
     },
 
-    openUsers (users, tmpUsers) {
-      // const sortUsers = users.reduce(this.expand, null)
-      // console.log(sortUsers)
+    flatUsers (users, tmpUsers) {
       users.forEach((user) => {
         if (user.hasOwnProperty('usersList')) {
-          this.openUsers(user['usersList'], tmpUsers)
+          this.flatUsers(user['usersList'], tmpUsers)
           tmpUsers.push(user)
         } else {
           tmpUsers.push(user)
         }
       })
     },
-
-    // expand (acc, el) {
-    //   if (!Array.isArray(el)) return el
-    //   if (el['usersList']) return el['usersList'].reduce(this.findById, acc)
-    //   return acc
-    // },
 
     addUser () {
       this.user.id = generateRandomId()
