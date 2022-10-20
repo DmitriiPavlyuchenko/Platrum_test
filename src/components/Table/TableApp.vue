@@ -12,7 +12,6 @@
 import AddUserModal from '../modals/AddUserModal'
 import {LOCALSTORAGE} from '../../helpers/localStorage'
 import UserList from './UserList'
-import Vue from 'vue'
 
 export default {
   name: 'TableApp',
