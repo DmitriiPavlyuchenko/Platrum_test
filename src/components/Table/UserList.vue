@@ -1,17 +1,15 @@
 <template>
-  <table :class="$style.table">
-    <tr :class="$style['title']">
-      <td :class="[$style['column'], $style['column-first']]" :style="{cursor: 'pointer'}" @click="sortList">
-        Имя
-      </td>
-      <td :class="[$style['column'], $style['column-second']]">
-        Телефон
-      </td>
-    </tr>
+  <div :class="$style.table">
+    <ul :class="$style['title']">
+      <li :class="[$style['column'], $style['column-title']]">
+        <span :style="{cursor: 'pointer'}" @click="sortList">Имя</span>
+        <span>Телефон</span>
+      </li>
+    </ul>
     <list-transition>
       <user-tree v-for="user in users" :key="user.id" :user="user"/>
     </list-transition>
-  </table>
+  </div>
 </template>
 
 <script lang="js">
@@ -45,34 +43,21 @@ export default {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border-top: 0.05rem solid var(--grey);
-  border-right: 0.05rem solid var(--grey);
+  border: 0.05rem solid var(--grey);
 }
 
-.title {
+.column-title {
   display: flex;
-  gap: 1.5rem;
-  width: 100%;
   font-size: 1.3rem;
-  border-bottom: 0.05rem solid var(--grey);
 }
 
-.column {
-  padding: 0.3rem;
-  align-items: center;
+.column-title > :first-child {
+  width: 40%;
+  padding-left: 0.3rem;
 }
 
-.table > tr {
-  border-left: 0.05rem solid var(--grey);
-}
-
-.table > .title > .column-first {
-  min-width: 35%;
-  word-break: break-all;
-}
-
-.table > .title > .column-second {
-  min-width: 65%;
-  display: flex;
+.column-title > :last-child {
+  width: 60%;
+  padding-left: 0.5rem;
 }
 </style>

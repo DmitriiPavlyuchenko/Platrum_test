@@ -1,22 +1,19 @@
 <template>
-  <tr :class="$style['body']" :style="userPadding">
-    <b-alert show :class="$style.alert" class="d-flex justify-content-between mb-1">
+  <ul :class="$style['body']">
+    <li :class="$style.wrapper">
+      <span :class="$style.name" :style="userPadding">
       <span v-if="hasChildren">+</span>
       <span v-else-if="child">+</span>
-      {{ user.name }}
-      {{ user.phone }}
-    </b-alert>
-    <!--    <td :class="[$style['column'], $style['column-first']]" :style="borderBottom">-->
-    <!--    </td>-->
-    <!--    <td :class="[$style['column'], $style['column-second']]" :style="[userMargin, borderBottom]">-->
-    <!--    </td>-->
+        {{ user.name }}</span>
+      <span :class="$style.phone">{{ user.phone }}</span>
+    </li>
     <div v-if="hasChildren" :class="$style['user-children']">
       <list-transition>
         <user-tree v-for="user in user.usersList" :key="user.id" :user="user"
                    :spacing="spacing + 5" :child="true" :margin="margin + 5" :border-top="borderBottom"/>
       </list-transition>
     </div>
-  </tr>
+  </ul>
 </template>
 
 <script>
@@ -69,16 +66,32 @@ export default {
 </script>
 
 <style module lang="css">
-.body {
-  display: grid;
-  grid-template-columns: 40% 60%;
-  width: 100%;
-  font-size: 1rem;
+.wrapper {
+  display: flex;
+  padding-left: 0.5rem;
+  border-top: 0.05rem solid var(--grey);
 }
 
-.user-children > span > .body {
+.phone {
+  flex: 0 0 60%;
+  padding-left: 0.3rem;
+}
+
+.name {
+  flex: 0 0 40%;
+  padding-left: 2rem;
+}
+
+ul {
+  list-style-type: none;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+}
+
+li {
+  display: flex;
+  height: 1.8rem;
+  align-items: center;
 }
 
 .column-first {
@@ -90,15 +103,6 @@ export default {
   width: 65%;
   display: flex;
   flex: 0 0 100%;
-}
-
-span > tr > td {
-  border-left: 0.05rem solid var(--grey);
-}
-
-td {
-  min-width: 100%;
-  padding: 0.3rem;
 }
 
 .alert {

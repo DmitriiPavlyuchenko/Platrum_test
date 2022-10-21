@@ -46,7 +46,7 @@
       <div :class="$style.buttons">
         <button
           :disabled="isFormValidate"
-          :class="$style.button"
+          :class="{[$style.button]: !isFormValidate}"
           @click="addUser"
           type="button"
         >
@@ -122,11 +122,14 @@ export default {
       this.user.name = firstLetterToUppercase
     },
 
-    usersStorage () {
-      const users = JSON.parse(JSON.stringify(this.usersStorage))
-      let tmpUsers = []
-      this.flatUsers(users, tmpUsers)
-      this.users = tmpUsers
+    usersStorage: {
+      handler () {
+        const users = JSON.parse(JSON.stringify(this.usersStorage))
+        let tmpUsers = []
+        this.flatUsers(users, tmpUsers)
+        this.users = tmpUsers
+      },
+      immediate: true
     }
   },
 
@@ -210,6 +213,29 @@ export default {
   display: flex;
 }
 
+button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+}
+
+.button {
+  font-size: 0.9rem;
+  color: var(--black);
+  border-radius: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--grey);
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--lightgrey);
+  box-shadow: 0 0 0.5rem var(--lightgrey);
+}
+
+.button:active {
+  border: 0.05rem solid var(--grey);
+}
+
 input,
 select {
   width: 60%;
@@ -222,7 +248,7 @@ select {
 }
 
 .select {
-  padding: 0.4rem 0 0.8rem;
+  padding: 0.4rem 0.8rem;
 }
 
 .select-wrapper {

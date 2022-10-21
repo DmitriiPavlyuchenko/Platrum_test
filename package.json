@@ -14,8 +14,6 @@
     "deploy": "sh deploy.sh "
   },
   "dependencies": {
-    "bootstrap": "^5.2.2",
-    "bootstrap-vue": "^2.22.0",
     "vue": "^2.7.13"
   },
   "devDependencies": {

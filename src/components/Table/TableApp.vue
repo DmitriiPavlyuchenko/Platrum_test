@@ -144,6 +144,24 @@ export default {
   align-self: flex-end;
 }
 
+.button {
+  font-size: 0.9rem;
+  color: var(--black);
+  border-radius: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  background-color: var(--grey);
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: var(--lightgrey);
+  box-shadow: 0 0 0.5rem var(--lightgrey);
+}
+
+.button:active {
+  border: 0.05rem solid var(--grey);
+}
+
 @media (max-width: 800px) {
   .container {
     width: 90%;
