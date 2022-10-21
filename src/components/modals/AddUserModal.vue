@@ -60,7 +60,6 @@
 <script lang="js">
 import ModalBase from '../ui/ModalBase'
 import InputBase from '../ui/InputBase'
-import ButtonBase from '../ui/ButtonBase'
 import SelectBase from '../ui/SelectBase'
 import {generateRandomId} from '../../helpers/generateRandom'
 
@@ -87,7 +86,6 @@ export default {
   components: {
     SelectBase,
     ModalBase,
-    ButtonBase,
     InputBase
   },
 

@@ -12,9 +12,9 @@
           <div :class="$style['footer']">
             <slot name="footer"></slot>
           </div>
-          <button-base type="button" :class="$style['close']" @click="close"
+          <button type="button" :class="$style['close']" @click="close"
           >x
-          </button-base>
+          </button>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.buttons">
-      <button-base type="button" @click="openModal" :class="$style.button">Добавить</button-base>
+      <button type="button" @click="openModal" :class="$style.button">Добавить</button>
     </div>
     <user-list @sort="changeSort" :users="users"/>
     <add-user-modal :users-storage="users" @users="addUser" @closeModal="closeModal" :isModalOpen="isModalOpen"/>
@@ -156,10 +156,6 @@ export default {
 .button:hover {
   background-color: var(--lightgrey);
   box-shadow: 0 0 0.5rem var(--lightgrey);
-}
-
-.button:active {
-  border: 0.05rem solid var(--grey);
 }
 
 @media (max-width: 800px) {
