@@ -4,7 +4,7 @@
   </transition-group>
 </template>
 
-<script>
+<script lang="js">
 export default {
   name: 'ListTransition'
 }

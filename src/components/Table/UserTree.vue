@@ -21,6 +21,7 @@ import ListTransition from '../transitions/ListTransition'
 
 export default {
   name: 'UserTree',
+
   components: {ListTransition},
 
   props: {

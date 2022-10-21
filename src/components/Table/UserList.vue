@@ -18,6 +18,7 @@ import UserTree from './UserTree'
 
 export default {
   name: 'UserList',
+
   components: {ListTransition, UserTree},
 
   props: {

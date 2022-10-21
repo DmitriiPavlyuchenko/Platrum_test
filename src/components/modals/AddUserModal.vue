@@ -73,10 +73,12 @@ export default {
         phone: false,
         name: false
       },
+
       user: {
         name: '',
         phone: ''
       },
+
       selectedOption: '',
       users: []
     }
@@ -94,6 +96,7 @@ export default {
       type: Boolean,
       required: true
     },
+
     usersStorage: {
       required: false,
       type: Array

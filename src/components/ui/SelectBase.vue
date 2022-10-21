@@ -15,10 +15,12 @@ export default {
       type: Array,
       default: () => []
     },
+
     defaultValue: {
       required: false,
       type: String
     },
+
     value: {
       type: String,
       required: true

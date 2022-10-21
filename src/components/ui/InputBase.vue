@@ -8,12 +8,14 @@
 <script lang="js">
 export default {
   name: 'InputBase',
+
   props: {
     value: {
       type: [String, Number],
       required: true
     }
   },
+
   emits: ['input']
 }
 </script>
