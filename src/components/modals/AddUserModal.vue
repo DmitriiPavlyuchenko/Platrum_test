@@ -22,6 +22,7 @@
             @input="isPhoneValid"
             type="text"
             id="phone"
+            placeholder="+7 911 111 1111"
             maxlength="12"
             minlength="12"
             pattern="[0-9]+"
