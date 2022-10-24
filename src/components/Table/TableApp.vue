@@ -56,35 +56,24 @@ export default {
 
     addUser (value) {
       this.selectedOption = value.selectedOption
+      const hasSelectedOption = value.selectedOption.length !== 0
 
-      const isUserChief = this.addSubordinate(value)
-
-      if (isUserChief) {
-        this.users = this.users.map(user => {
-          if (user.id === isUserChief.id) {
-            return isUserChief
-          }
-          return user
-        })
+      if (hasSelectedOption) {
+        this.addSubordinate(value)
       } else {
         this.users.push(value.user)
       }
     },
 
     addSubordinate (value) {
-      const hasSelectedOption = value.selectedOption.length !== 0
-      if (hasSelectedOption) {
-        const chief = this.users.reduce(this.findById, null)
+      const chief = this.users.reduce(this.findById, null)
 
-        if (!chief['usersList']) {
-          this.$set(chief, 'usersList', [])
-        }
-
-        chief['usersList'].push(value.user)
-        return chief
-      } else {
-        return undefined
+      if (!chief['usersList']) {
+        this.$set(chief, 'usersList', [])
       }
+
+      chief['usersList'].push(value.user)
+      LOCALSTORAGE.setItem('users', this.users)
     },
 
     findById (acc, el) {
